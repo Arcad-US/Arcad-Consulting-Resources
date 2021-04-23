@@ -1,0 +1,11 @@
+Script Body - 
+
+#!/usr/bin/bash
+# Call the command line processor with the correct classpath
+# 
+mkdir -p ${bamboo.build.working.directory}/MEEMIC_TRN/builds/${bamboo.buildNumber}
+cd /opt/ARCAD/cli-tools/
+java -cp ./afs-client-cli.jar:./libs/*:./arcad/*:./builder/*:./drops/* com.arcadsoftware.cli.CLI $*
+
+Arguments - 
+bldExecute "-core.url=http://10.108.10.192:5252" "-core.usr=admin@quadra" "-core.pwd=quadra" "-core.ctf=/opt/ARCAD/cli-tools/truststores/builder_studio.jks" -core.ctp=cXVhZHJh "-bld.app=MEEMIC_TRN" "-bld.env=DEV" "-bld.ver=${bamboo.inject.ARCADbranch}" "-bld.mdl=MEEMIC_TRN" "-bld.rfi=${bamboo.build.working.directory}/MEEMIC_TRN/builds/${bamboo.buildNumber}/resultlog.xml" "-bld.rdr=${bamboo.build.working.directory}/MEEMIC_TRN/buildresult/${bamboo.buildNumber}" -bld.str=*ONLY "-git.rpo=MEEMIC_TRN" "-git.bra=${bamboo.planRepository.branch}"

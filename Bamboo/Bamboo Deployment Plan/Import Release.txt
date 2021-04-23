@@ -1,0 +1,10 @@
+#!/bin/sh
+# Call the command line processor with the correct classpath
+# 
+#mkdir -p ${bamboo.build.working.directory}/SAMCO/builds/${bamboo.buildNumber}
+
+ARCAD_branch=$(echo $bamboo_planRepository_branch | cut -c1-8)
+echo "ARCADbranch=$ARCAD_branch" > arcad.properties
+
+cd /opt/ARCAD/cli-tools/
+java -cp ./afs-client-cli.jar:./libs/*:./arcad/*:./builder/*:./drops/* com.arcadsoftware.cli.CLI drpImport "-core.url=http://mimv-dropste01.meemic.ins:5252" "-core.usr=admin" "-core.pwd=quadra" "-ix.app=MEEMIC_TRN" "-ix.crl=0" "-ix.rls=$ARCAD_branch" | exit 0

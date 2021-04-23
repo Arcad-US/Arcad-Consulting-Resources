@@ -1,0 +1,12 @@
+Script Body - 
+
+#!/bin/sh
+# Call the command line processor with the correct classpath
+# 
+#mkdir -p ${bamboo.build.working.directory}/SAMCO/builds/${bamboo.buildNumber}
+cd /opt/ARCAD/cli-tools/
+java -cp ./afs-client-cli.jar:./libs/*:./arcad/*:./builder/*:./drops/* com.arcadsoftware.cli.CLI $*
+
+Argument - 
+
+drpDeploy "-core.url=http://mimv-dropste01.meemic.ins:5252" "-core.usr=admin" "-core.pwd=quadra" "-dp.env=QAU" "-dp.app=MEEMIC_TRN" "-dp.pro=MEEMIC_TRN" "-dp.rls=${bamboo.inject.ARCADbranch}"

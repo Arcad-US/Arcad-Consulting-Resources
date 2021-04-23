@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+ARCAD_branch=$(echo $bamboo_planRepository_branch | cut -c1-8)
+
+curl --user admin:quadra -s -f -H \"Content-type: application/xml\" -H \"Accept: application/xml\" http://mimv-dropste01.meemic.ins:5252/data/release/ --data "increment=0&text=Automated+release&application=2&number=$ARCAD_branch"
