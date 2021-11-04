@@ -2,20 +2,23 @@ echo env.BRANCH_NAME.substring(0,8)
 def ARCAD_VERSION = env.BRANCH_NAME.substring(0,8)
 
 pipeline {
-    agent any
-    options {
-        skipStagesAfterUnstable()
-    }
-
-    stages {
-        stage('Build ARCAD Version') {
-            steps {
-                echo "ARCAD Build Starting for $ARCAD_VERSION..."
+	agent any
+	options {
+		skipStagesAfterUnstable()
+		disableConcurrentBuilds()
+	}
+	stages {
+		stage('Build ARCAD Version') {
+			// Only release branches and skip the initial build
+			when { anyOf { branch 'R*'; branch 'Z*'; branch 'V*' } not { equals expected: 1, actual: currentBuild.number } }
+			steps {
+               	 		echo "ARCAD Build Starting for $ARCAD_VERSION..."
 				// copy the pipeline script generated from the Snippet Generator
 			}
-        }
+        	}
 		stage('Drops Import') {
-			when { anyOf { branch 'R*'; branch 'Z*' } }
+			// Only release branches and skip the initial build
+			when { anyOf { branch 'R*'; branch 'Z*'; branch 'V*' } not { equals expected: 1, actual: currentBuild.number } }
 			steps {
 				echo "Drops Import Starting for $ARCAD_VERSION..."
 				// copy the pipeline script generated from the Snippet Generator
@@ -23,12 +26,13 @@ pipeline {
 			}
 		}
 		stage('Deploy to QA') {
-			when { anyOf { branch 'R*'; branch 'Z*' } }
+			// Only release branches and skip the initial build
+			when { anyOf { branch 'R*'; branch 'Z*'; branch 'V*' } not { equals expected: 1, actual: currentBuild.number } }
 			steps {
 				echo "Drops Deploy Starting for $ARCAD_VERSION..."
 				// copy the pipeline script generated from the Snippet Generator
 				// release: [$class: 'ExistingRelease', number: "${ARCAD_VERSION}"
 			}
 		}
-    }
+	}
 }
